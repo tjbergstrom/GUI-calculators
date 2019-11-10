@@ -9,10 +9,9 @@ import java.awt.event.*;
 import java.math.*;
             
 public class Calcul8r extends JFrame implements ActionListener {
+    JPanel mainPanel, buttonPanel;
     JTextField disp;
     JButton button;
-    JPanel mainPanel;
-    JPanel buttonPanel;
     double answer;
     String firstNumber, operand, secondNumber;
     String defaultFont = "Gungsuh";
@@ -28,7 +27,7 @@ public class Calcul8r extends JFrame implements ActionListener {
         setContentPane(mainPanel);
         setVisible(true);
         setResizable(true);
-        setSize(600,400);
+        setSize(500,400);
         setTitle("Ty's Calcul8r");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(500, 150));
@@ -40,18 +39,22 @@ public class Calcul8r extends JFrame implements ActionListener {
         disp.setHorizontalAlignment(SwingConstants.RIGHT);
         disp.setBackground(new java.awt.Color(220, 220, 220));
         // panel for button grid
-        buttonPanel = new JPanel(new GridLayout(4,4));
+        buttonPanel = new JPanel(new GridLayout(8,4));
         buttonPanel.setBackground(new java.awt.Color(0, 0, 0));
         // add buttons to panel
-        String[] buttons = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "+","-","*","/","=","c"};
+        String[] buttons = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "+","-","*","/","=","clear", 
+                            "x^2", "x^y", "sqrt", "rt(y)", "log", "%", "pi", "e", "sin", "cos", "tan", "(-)",
+                            "arcsin", "arccos", "arctan", "!"};
         for(int j=0; j<buttons.length; j++){
             button = new JButton(buttons[j]);
             buttonPanel.add(button);
-            button.setFont(new java.awt.Font(defaultFont, 1, 28));
+            button.setFont(new java.awt.Font(defaultFont, 1, 20));
             if(j>=0 && j<=9){
                 button.setBackground(new java.awt.Color(140, 140, 140));
+            }else if(j>=9 && j<=15){
+                button.setBackground(new java.awt.Color(100, 100, 100));
             }else{
-                button.setBackground(new java.awt.Color(110, 110, 110));
+                button.setBackground(new java.awt.Color(60, 80, 80));
             }
             button.addActionListener(this);
         }
@@ -64,7 +67,7 @@ public class Calcul8r extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent event){
         String inputStr = event.getActionCommand();
         // get numbers input
-        if(inputStr.charAt(0) >= '0' && inputStr.charAt(0) <= '9'){
+        if((inputStr.charAt(0) >= '0' && inputStr.charAt(0) <= '9') || inputStr.charAt(0) == 'p' || inputStr.charAt(0) == 'e'){
             if(!operand.equals("")){
                 secondNumber = secondNumber+inputStr;
                 disp.setText(operand+secondNumber);
@@ -73,15 +76,26 @@ public class Calcul8r extends JFrame implements ActionListener {
                     firstNumber = Double.toString(answer);
                     disp.setText(operand+secondNumber);
                 }
+                if(secondNumber.equals("pi")){
+                    secondNumber = Double.toString(Math.PI);
+                }
+                if(secondNumber.equals("e")){
+                    secondNumber = Double.toString(Math.E);
+                }
             }else{
                 firstNumber = firstNumber+inputStr;
                 disp.setText(firstNumber);
+                if(firstNumber.equals("pi")){
+                    firstNumber = Double.toString(Math.PI);
+                }
+                if(firstNumber.equals("e")){
+                    firstNumber = Double.toString(Math.E);
+                }
             }
-        // clear button
-        }else if(inputStr.charAt(0)=='c'){
+        // get operand input
+        }else if(inputStr.charAt(0)=='c' && inputStr.charAt(1)=='l'){
             firstNumber=operand=secondNumber="";
             disp.setText("");
-        // get operand input
         }else if(inputStr.charAt(0)=='+'){
             operand = "+";
         }else if(inputStr.charAt(0)=='-'){
@@ -90,12 +104,48 @@ public class Calcul8r extends JFrame implements ActionListener {
             operand = "*";
         }else if(inputStr.charAt(0)=='/'){
             operand = "/";
+        }else if(inputStr.charAt(0)=='x' && inputStr.charAt(2)=='y'){
+            operand = "^";
+        }else if(inputStr.charAt(0)=='x'){
+            operand = "x^2";
+            disp.setText("^2");
+        }else if(inputStr.charAt(0)=='s' && inputStr.charAt(1)=='i'){
+            operand = "sin";
+            disp.setText("sin(" + firstNumber + ")");
+        }else if(inputStr.charAt(0)=='s'){
+            operand = "sqrt";
+            disp.setText("sqrt(" + firstNumber + ")");
+        }else if(inputStr.charAt(0)=='r'){
+            operand = "rt";
+        }else if(inputStr.charAt(0)=='%'){
+            operand = "%";
+        }else if(inputStr.charAt(0)=='l'){
+            operand = "log";
+        }else if(inputStr.charAt(0)=='c' && inputStr.charAt(1)=='o'){
+            operand = "cos";
+            disp.setText("cos(" + firstNumber + ")");
+        }else if(inputStr.charAt(0)=='t'){
+            operand = "tan";
+            disp.setText("tan(" + firstNumber + ")");
+        }else if(inputStr.charAt(0)=='('){
+            double negativeFirstNumber = 0 - Double.parseDouble(firstNumber);
+            firstNumber = Double.toString(negativeFirstNumber);
+            disp.setText(firstNumber);
+        }else if(inputStr.charAt(0)=='a' && inputStr.charAt(3)=='s'){
+            operand = "arcsin";
+            disp.setText("arcsin(" + firstNumber + ")");
+        }else if(inputStr.charAt(0)=='a' && inputStr.charAt(3)=='c'){
+            operand = "arccos";
+            disp.setText("arccos(" + firstNumber + ")");
+        }else if(inputStr.charAt(0)=='a' && inputStr.charAt(3)=='t'){
+            operand = "arctan";
+            disp.setText("arctan(" + firstNumber + ")");
+        }else if(inputStr.charAt(0)=='!'){
+            operand = "!";
         }if(inputStr.charAt(0)=='='){
             // calculate and display
             calculations();
             displayAnswer();
-            // reset all 
-            firstNumber=operand=secondNumber="";
         }
     }
     
@@ -107,11 +157,51 @@ public class Calcul8r extends JFrame implements ActionListener {
         }else if(operand=="*"){
             answer = (Double.parseDouble(firstNumber)*Double.parseDouble(secondNumber));
         }else if(operand=="/"){
-            // divide by zero error
             if((Double.parseDouble(secondNumber))==0.0){
-                answer = 0;
+                answer=0;
             }else{
                 answer = (Double.parseDouble(firstNumber)/Double.parseDouble(secondNumber));
+            }
+        }else if(operand=="x^2"){
+            answer = (Double.parseDouble(firstNumber)*Double.parseDouble(firstNumber));
+        }else if(operand=="^"){
+            answer = Math.pow(Double.parseDouble(firstNumber),Double.parseDouble(secondNumber));
+        }else if(operand=="sqrt"){
+            if((Double.parseDouble(firstNumber))<0.0){
+                answer=0;
+            }else{
+                answer = Math.sqrt(Double.parseDouble(firstNumber));
+            }
+        }else if(operand=="rt"){
+            if((Double.parseDouble(secondNumber))<0.0){
+                answer=0;
+            }else{
+                answer = Math.pow(Double.parseDouble(firstNumber), 1/Double.parseDouble(secondNumber));
+            }
+        }else if(operand=="%"){
+            answer = (Double.parseDouble(firstNumber)%Double.parseDouble(secondNumber));
+        }else if(operand=="log"){
+            if((Double.parseDouble(firstNumber))<=0.0){
+                answer=0;
+            }else{
+                answer = Math.log(Double.parseDouble(firstNumber));
+            }
+        }else if(operand=="sin"){
+            answer = Math.sin(Double.parseDouble(firstNumber));
+        }else if(operand=="cos"){
+            answer = Math.cos(Double.parseDouble(firstNumber));
+        }else if(operand=="tan"){
+            answer = Math.tan(Double.parseDouble(firstNumber));
+        }else if(operand=="arcsin"){
+            answer = Math.asin(Double.parseDouble(firstNumber));
+        }else if(operand=="arcos"){
+            answer = Math.acos(Double.parseDouble(firstNumber));
+        }else if(operand=="arctan"){
+            answer = Math.atan(Double.parseDouble(firstNumber));
+        }else if(operand=="!"){
+            answer = 1;
+            for(double i=Double.parseDouble(firstNumber); i>1; i--){
+                answer = answer*i;
             }
         }
         return answer;
@@ -124,6 +214,8 @@ public class Calcul8r extends JFrame implements ActionListener {
         }else{
             disp.setText("="+answer);
         }
+        // reset all 
+        firstNumber=operand=secondNumber="";
     }
     
     public static void main(String args[]){
