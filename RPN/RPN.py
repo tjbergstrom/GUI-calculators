@@ -1,4 +1,4 @@
-# use input expression as argument for calculate method
+# a console reverse polish notation calculator
 # usage:
 # python3 RPN.py "2 2 * "
 
