@@ -1,7 +1,4 @@
-// Ty Bergstrom
-// CSCE222
-// November 12 2018
-// homework assignment 4 - calculator
+// just a gui calculator
 
 import javax.swing.*;
 import java.awt.*;
