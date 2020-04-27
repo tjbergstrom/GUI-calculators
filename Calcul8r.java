@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.math.*;
-            
+
 public class Calcul8r extends JFrame implements ActionListener {
     JPanel mainPanel, buttonPanel;
     JTextField disp;
@@ -12,12 +12,12 @@ public class Calcul8r extends JFrame implements ActionListener {
     double answer;
     String firstNumber, operand, secondNumber;
     String defaultFont = "Gungsuh";
-    
+
     public Calcul8r(){
         firstNumber=operand=secondNumber="";
         gooey();
     }
-    
+
     // GUI interface, called in the constructor
     public void gooey() {
         mainPanel = new JPanel(new BorderLayout());
@@ -59,7 +59,7 @@ public class Calcul8r extends JFrame implements ActionListener {
         mainPanel.add(disp, BorderLayout.NORTH);
         mainPanel.add(buttonPanel, BorderLayout.CENTER);
     }
-    
+
     // get input
     public void actionPerformed(ActionEvent event){
         String inputStr = event.getActionCommand();
@@ -145,7 +145,7 @@ public class Calcul8r extends JFrame implements ActionListener {
             displayAnswer();
         }
     }
-    
+
     public double calculations(){
         if(operand=="+"){
             answer = (Double.parseDouble(firstNumber)+Double.parseDouble(secondNumber));
@@ -203,7 +203,7 @@ public class Calcul8r extends JFrame implements ActionListener {
         }
         return answer;
     }
-    
+
     public void displayAnswer(){
         // round if .0
         if((answer == Math.floor(answer)) && !Double.isInfinite(answer)){
@@ -214,7 +214,7 @@ public class Calcul8r extends JFrame implements ActionListener {
         // reset all 
         firstNumber=operand=secondNumber="";
     }
-    
+
     public static void main(String args[]){
         // Nimbus Look and Feel
         // Delete this try catch block if Nimbus is not available to you
@@ -235,7 +235,10 @@ public class Calcul8r extends JFrame implements ActionListener {
             java.util.logging.Logger.getLogger(Calcul8r.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         // Delete the above try catch block if Nimbus is unavailable
-        
+
         Calcul8r calc = new Calcul8r();
     }
 }
+
+
+
