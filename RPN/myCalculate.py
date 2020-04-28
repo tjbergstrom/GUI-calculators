@@ -12,7 +12,7 @@ operators = {
     "/": (lambda a, b: a / b),
     "^": (lambda a, b: a ** b),
     "%": (lambda a, b: a % b),
-    "sqrt": (lambda a: a ** .5)
+    "rt(y)": (lambda a: a ** .5)
 }
 
 
@@ -75,5 +75,18 @@ def calculate(args):
     else:
         # and then return the popped final answer
         return finalAnswer
+
+
+class RPNcalc:
+    def rpn(exp):
+        try:
+            answer = myCalculate.calculate(exp.split())
+        except ValueError:
+            e = sys.exc_info()[0]
+            print(e)
+        return str(answer)
+
+
+
 
 
