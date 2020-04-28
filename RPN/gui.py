@@ -1,7 +1,6 @@
 # a GUI for an RPN calculator
 
 
-
 import sys
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QMainWindow
