@@ -1,6 +1,7 @@
 # a GUI for an RPN calculator
 
 
+
 import sys
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QMainWindow
@@ -12,7 +13,7 @@ from PyQt5.QtWidgets import QLineEdit
 from PyQt5.QtWidgets import QPushButton
 from PyQt5.QtWidgets import QVBoxLayout
 from functools import partial
-from RPN import RPNcalc
+from myCalculate import RPNcalc
 import qdarkstyle
 import PyQt5.QtWidgets
 
